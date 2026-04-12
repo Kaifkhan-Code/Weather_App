@@ -1,0 +1,27 @@
+/* FULL SCREEN CENTER */
+.app {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+/* MAIN RECTANGULAR CARD */
+.dashboard {
+  width: 360px;              /* slightly smaller */
+  padding: 15px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;                /* spacing between elements */
+
+  border-radius: 20px;
+
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.2);
+
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}

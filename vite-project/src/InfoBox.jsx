@@ -2,17 +2,24 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
 import GrainIcon from "@mui/icons-material/Grain";
 import CloudIcon from "@mui/icons-material/Cloud";
+
 import "./InfoBox.css";
 
 export default function InfoBox({ info }) {
+  // ✅ safety check (prevents crash)
+  if (!info) return null;
+
   const IMAGES = {
     Clear: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60",
-    Clouds: "https://images.unsplash.com/photo-1526318472351-bc6c2c8b36b0?auto=format&fit=crop&w=800&q=60",
+    Clouds: "https://images.unsplash.com/photo-1499346030926-9a72daac6c63?auto=format&fit=crop&w=800&q=60",
     Rain: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=60",
     Snow: "https://images.unsplash.com/photo-1600289031461-79bf89a47a3d?auto=format&fit=crop&w=800&q=60",
     Mist: "https://images.unsplash.com/photo-1526676037777-349f80e8c1a1?auto=format&fit=crop&w=800&q=60",
@@ -21,61 +28,86 @@ export default function InfoBox({ info }) {
     Default: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60",
   };
 
+  // ✅ always safe image
   const weatherImage = IMAGES[info.weatherType] || IMAGES.Default;
 
   const getIcon = () => {
     switch (info.weatherType) {
       case "Clear":
-        return <WbSunnyIcon fontSize="large" color="warning" />;
+        return <WbSunnyIcon fontSize="small" color="warning" />;
       case "Clouds":
-        return <CloudIcon fontSize="large" color="action" />;
+        return <CloudIcon fontSize="small" />;
       case "Rain":
-        return <GrainIcon fontSize="large" color="primary" />;
+        return <GrainIcon fontSize="small" color="primary" />;
       case "Snow":
-        return <AcUnitIcon fontSize="large" color="info" />;
+        return <AcUnitIcon fontSize="small" />;
       case "Thunderstorm":
-        return <ThunderstormIcon fontSize="large" color="secondary" />;
+        return <ThunderstormIcon fontSize="small" />;
       default:
-        return <WbSunnyIcon fontSize="large" />;
+        return <WbSunnyIcon fontSize="small" />;
     }
   };
 
   return (
-    <div className="InfoBox">
-      <h2>
-        Weather in {info.city}, {info.country} {getIcon()}
-      </h2>
-      <div className="card">
-        <Card sx={{ maxWidth: 345, margin: "auto" }}>
-          <CardMedia
-            component="img"
-            height="180"
-            image={weatherImage}
-            alt={info.weatherType}
-            onError={(e) => (e.target.src = IMAGES.Default)}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {info.weatherType}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Temperature: {info.temp}°C (Min: {info.tempMin}°C, Max: {info.tempMax}°C)
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Feels like {info.feelsLike}°C
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Humidity: {info.humidity}%
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Pressure: {info.pressure} hPa
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Wind Speed: {info.windSpeed} m/s
-            </Typography>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    <Box className="InfoBox">
+      <Typography variant="h6" className="title">
+        {info.city}, {info.country} {getIcon()}
+      </Typography>
+
+      <Card className="weatherCard">
+        {/* ✅ FIXED (inside return + fallback added) */}
+        <CardMedia
+          component="img"
+          height="130"
+          image={weatherImage}
+          alt={info.weatherType}
+          onError={(e) => (e.target.src = IMAGES.Default)}
+        />
+
+        <CardContent>
+          <Typography variant="h6" className="weatherType">
+            {info.weatherType}
+          </Typography>
+
+          <Typography variant="h4" className="temp">
+            {info.temp}°C
+          </Typography>
+
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <div className="detailBox">
+                <p>Feels</p>
+                <h4>{info.feelsLike}°C</h4>
+              </div>
+            </Grid>
+
+            <Grid item xs={6}>
+              <div className="detailBox">
+                <p>Humidity</p>
+                <h4>{info.humidity}%</h4>
+              </div>
+            </Grid>
+
+            <Grid item xs={6}>
+              <div className="detailBox">
+                <p>Pressure</p>
+                <h4>{info.pressure} hPa</h4>
+              </div>
+            </Grid>
+
+            <Grid item xs={6}>
+              <div className="detailBox">
+                <p>Wind</p>
+                <h4>{info.windSpeed} m/s</h4>
+              </div>
+            </Grid>
+          </Grid>
+
+          <Typography variant="body2" className="minmax">
+            Min: {info.tempMin}°C | Max: {info.tempMax}°C
+          </Typography>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }

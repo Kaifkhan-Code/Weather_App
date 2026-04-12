@@ -1,18 +1,30 @@
+.searchWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
-.SearchBox {
-  margin: 20px auto;
+.searchCard {
+  width: 100%;
+  padding: 12px;              /* reduced padding */
+  border-radius: 15px !important;
   text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2) !important;
 }
 
-form {
-  margin-top: 10px;
+.searchTitle {
+  font-size: 16px;            /* smaller title */
+  margin-bottom: 8px;
 }
 
-input {
-  padding: 10px;
-  font-size: 1rem;
+.searchForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;                   /* reduced spacing */
 }
 
-button {
-  margin-top: 10px;
+.errorText {
+  margin-top: 6px;
+  color: red;
+  font-size: 12px;
 }

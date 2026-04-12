@@ -1,11 +1,18 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import "./SearchBox.css";
+import SearchIcon from "@mui/icons-material/Search";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 import { useState } from "react";
+import "./SearchBox.css";
 
 export default function SearchBox({ updateInfo }) {
   const [city, setCity] = useState("");
   const [err, setErr] = useState("");
+
+  const handleChange = (e) => {
+    setCity(e.target.value);
+  };
 
   const getWeather = async (city) => {
     try {
@@ -17,7 +24,7 @@ export default function SearchBox({ updateInfo }) {
 
       const data = await response.json();
 
-      const result = {
+      return {
         temp: data.main.temp,
         tempMin: data.main.temp_min,
         tempMax: data.main.temp_max,
@@ -29,46 +36,55 @@ export default function SearchBox({ updateInfo }) {
         windSpeed: data.wind.speed,
         country: data.sys.country,
       };
-
-      return result;
     } catch {
       setErr("City not found! Please try again.");
       return null;
     }
   };
 
-  const handleChange = (event) => {
-    setCity(event.target.value);
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
     const newInfo = await getWeather(city);
+
     if (newInfo) {
       updateInfo(newInfo);
       setErr("");
     }
+
     setCity("");
   };
 
   return (
-    <div className="SearchBox">
-      <h3>Search for a city</h3>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          id="outlined-basic"
-          label="City"
-          variant="outlined"
-          value={city}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <Button variant="contained" type="submit" style={{ marginTop: "10px" }}>
-          Search
-        </Button>
-      </form>
-      {err && <p style={{ color: "red" }}>{err}</p>}
-    </div>
+    <Box className="searchWrapper">
+      <Paper elevation={4} className="searchCard">
+        <h2 className="searchTitle">🔍 Search Weather</h2>
+
+        <form onSubmit={handleSubmit} className="searchForm">
+          <TextField
+            size="small"
+            fullWidth
+            label="Enter City"
+            value={city}
+            onChange={handleChange}
+            required
+          />
+
+          {/* ✅ FIX IS HERE */}
+          <Button
+            type="submit"   // 🔥 THIS WAS MISSING
+            variant="contained"
+            size="small"
+            fullWidth
+            startIcon={<SearchIcon />}
+            sx={{ mt: 1 }}
+          >
+            Search
+          </Button>
+        </form>
+
+        {err && <p className="errorText">{err}</p>}
+      </Paper>
+    </Box>
   );
 }

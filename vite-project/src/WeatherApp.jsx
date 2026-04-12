@@ -1,35 +1,25 @@
 import { useState, useEffect } from "react";
 import InfoBox from "./InfoBox";
 import SearchBox from "./SearchBox";
+import "./WeatherApp.css";
 
 export default function WeatherApp() {
-  const [weatherInfo, setWeatherInfo] = useState({
-    feelsLike: 0,
-    temp: 0,
-    tempMin: 0,
-    tempMax: 0,
-    humidity: 0,
-    pressure: 0,
-    windSpeed: 0,
-    weatherType: "Clear",
-    city: "Ranchi",
-    country: "IN",
-  });
+  const [weatherInfo, setWeatherInfo] = useState(null);
 
   const updateInfo = (newInfo) => {
     setWeatherInfo(newInfo);
   };
 
-  // Load Ranchi weather on startup
   useEffect(() => {
     async function fetchDefault() {
       try {
         const API_URL = import.meta.env.VITE_API_URL;
         const API_KEY = import.meta.env.VITE_API_KEY;
-        const response = await fetch(`${API_URL}Ranchi&appid=${API_KEY}&units=metric`);
-        const data = await response.json();
 
-        const defaultInfo = {
+        const res = await fetch(`${API_URL}Ranchi&appid=${API_KEY}&units=metric`);
+        const data = await res.json();
+
+        setWeatherInfo({
           temp: data.main.temp,
           tempMin: data.main.temp_min,
           tempMax: data.main.temp_max,
@@ -40,22 +30,24 @@ export default function WeatherApp() {
           city: data.name,
           windSpeed: data.wind.speed,
           country: data.sys.country,
-        };
-
-        setWeatherInfo(defaultInfo);
+        });
       } catch (err) {
-        console.error("Default weather load failed:", err);
+        console.log(err);
       }
     }
 
     fetchDefault();
   }, []);
 
-  return (
-    <div style={{ textAlign: "center" }}>
-      <h2>🌦️ Weather App</h2>
+return (
+  <div className="app">
+    <div className="dashboard">
+      <h2 className="title">🌦️ Weather App</h2>
+
       <SearchBox updateInfo={updateInfo} />
-      <InfoBox info={weatherInfo} />
+
+      {weatherInfo && <InfoBox info={weatherInfo} />}
     </div>
-  );
+  </div>
+);
 }
