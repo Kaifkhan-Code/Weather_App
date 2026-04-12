@@ -10,13 +10,13 @@
 
 /* MAIN RECTANGULAR CARD */
 .dashboard {
-  width: 360px;              /* slightly smaller */
+  width: 360px;              
   padding: 15px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;                /* spacing between elements */
+  gap: 12px;                
 
   border-radius: 20px;
 

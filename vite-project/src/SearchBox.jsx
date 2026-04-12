@@ -70,9 +70,9 @@ export default function SearchBox({ updateInfo }) {
             required
           />
 
-          {/* ✅ FIX IS HERE */}
+          
           <Button
-            type="submit"   // 🔥 THIS WAS MISSING
+            type="submit"   
             variant="contained"
             size="small"
             fullWidth

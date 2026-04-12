@@ -6,21 +6,21 @@
 
 .searchCard {
   width: 100%;
-  padding: 12px;              /* reduced padding */
+  padding: 12px;              
   border-radius: 15px !important;
   text-align: center;
   box-shadow: 0 6px 20px rgba(0,0,0,0.2) !important;
 }
 
 .searchTitle {
-  font-size: 16px;            /* smaller title */
+  font-size: 16px;            
   margin-bottom: 8px;
 }
 
 .searchForm {
   display: flex;
   flex-direction: column;
-  gap: 8px;                   /* reduced spacing */
+  gap: 8px;                   
 }
 
 .errorText {

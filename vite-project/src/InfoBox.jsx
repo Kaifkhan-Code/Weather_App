@@ -14,7 +14,7 @@ import CloudIcon from "@mui/icons-material/Cloud";
 import "./InfoBox.css";
 
 export default function InfoBox({ info }) {
-  // ✅ safety check (prevents crash)
+  
   if (!info) return null;
 
   const IMAGES = {
@@ -28,7 +28,7 @@ export default function InfoBox({ info }) {
     Default: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60",
   };
 
-  // ✅ always safe image
+ 
   const weatherImage = IMAGES[info.weatherType] || IMAGES.Default;
 
   const getIcon = () => {
@@ -55,7 +55,7 @@ export default function InfoBox({ info }) {
       </Typography>
 
       <Card className="weatherCard">
-        {/* ✅ FIXED (inside return + fallback added) */}
+        
         <CardMedia
           component="img"
           height="130"
